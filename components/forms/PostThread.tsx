@@ -4,6 +4,7 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useOrganization } from "@clerk/nextjs"
 import {
   Form,
   FormControl,
@@ -17,6 +18,7 @@ import { Textarea } from "../ui/textarea"
 import { usePathname, useRouter } from "next/navigation"
 import { ThreadValidation } from "@/lib/validations/thread"
 import { createThread } from "@/lib/actions/thread.actions"
+
 
 // import { UserValidation } from "@/lib/validations/user"
 // import { updateUser } from "@/lib/actions/user.actions"
@@ -38,6 +40,7 @@ function PostThread({ userId }: {userId: string}) {
 
     const router = useRouter();
     const pathname = usePathname();
+    const organization = useOrganization();
 
     const form = useForm<z.infer<typeof ThreadValidation>>({
         resolver: zodResolver(ThreadValidation),
@@ -51,7 +54,7 @@ function PostThread({ userId }: {userId: string}) {
         await createThread({
             text: values.thread,
             author: userId,
-            communityid: null,
+            communityId: organization ? organization.id : null,
             path: pathname,
         });
         router.push('/');
