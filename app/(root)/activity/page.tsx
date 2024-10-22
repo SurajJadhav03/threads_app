@@ -16,8 +16,8 @@ const page = async () => {
   const activity = await getActivity(userInfo._id);
 
   return (
-    <section>
-        <h1 className='head-text mb-10'>Activity</h1>
+    <>
+        <h1 className='head-text'>Activity</h1>
 
         <section className='mt-10 flex flex-col gap-5'>
           {activity.length > 0 ? (
@@ -27,7 +27,7 @@ const page = async () => {
                   <article className='activity-card'>
                     <Image
                       src={activity.author.image}
-                      alt='Profile Image'
+                      alt='User_logo'
                       width={20}
                       height={20}
                       className='rounded-full object-cover'
@@ -46,7 +46,7 @@ const page = async () => {
             <p className='!text-base-regular text-light-3'>No activity yet</p>
           )}
         </section>
-    </section>
+    </>
   )
 }
 

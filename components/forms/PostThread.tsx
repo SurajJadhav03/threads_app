@@ -1,21 +1,22 @@
 "use client"
 
-import { z } from "zod"
+import * as z from "zod"
 import { useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { useOrganization } from "@clerk/nextjs"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { usePathname, useRouter } from "next/navigation"
+
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
 } from "@/components/ui/form"
+import { Button } from "@/components/ui/button"
 import { Textarea } from "../ui/textarea"
 
-import { usePathname, useRouter } from "next/navigation"
 import { ThreadValidation } from "@/lib/validations/thread"
 import { createThread } from "@/lib/actions/thread.actions"
 
@@ -25,22 +26,15 @@ import { createThread } from "@/lib/actions/thread.actions"
 
 
 interface Props {
-    user: {
-        id: string
-        objectId: string
-        username: string
-        name: string
-        bio: string
-        image: string
-    }
-    btnTitle: string
+    userId: string
 }
 
-function PostThread({ userId }: {userId: string}) {
+function PostThread({ userId }: Props) {
 
     const router = useRouter();
     const pathname = usePathname();
-    const organization = useOrganization();
+
+    const { organization } = useOrganization();
 
     const form = useForm<z.infer<typeof ThreadValidation>>({
         resolver: zodResolver(ThreadValidation),
@@ -78,7 +72,6 @@ function PostThread({ userId }: {userId: string}) {
                         <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
                             <Textarea
                             rows={15}
-                            className='account-form_input no-focus'
                             {...field}
                             />
                         </FormControl>

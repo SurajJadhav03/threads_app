@@ -12,7 +12,7 @@ import {
   FormLabel,
 } from "@/components/ui/form"
 import { Input } from "../ui/input"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { CommentValidation } from "@/lib/validations/thread"
 import Image from "next/image"
 import { addCommentToThread } from "@/lib/actions/thread.actions"
@@ -20,17 +20,15 @@ import { addCommentToThread } from "@/lib/actions/thread.actions"
 
 interface Props {
     threadId: string
-    currentUserImage: string
+    currentUserImg: string
     currentUserId: string
 }
 
 const Comment = ({
     threadId,
-    currentUserImage,
+    currentUserImg,
     currentUserId,
 } : Props) => {
-
-    const router = useRouter();
     const pathname = usePathname();
 
     const form = useForm<z.infer<typeof CommentValidation>>({
@@ -58,7 +56,7 @@ const Comment = ({
             render={({ field }) => (
                 <FormItem className='flex w-full items-center gap-3'>
                     <FormLabel>
-                         <Image src={currentUserImage} alt="Profile image" width={48} height={48} className="rounded-full object-cover"/>
+                         <Image src={currentUserImg} alt="Profile image" width={48} height={48} className="rounded-full object-cover"/>
                     </FormLabel>
                     <FormControl className="border-none bg-transparent">
                         <Input
